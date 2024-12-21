@@ -35,7 +35,7 @@ export default function Home() {
             </header>
             <main className="flex flex-col mt-32">
                 <section className="p-8 bg-gray-100">
-                    <div className='flex flex-col 2xl:flex-row gap-24 w-[60%] m-auto p-8'>
+                    <div className='flex flex-col lg:flex-row gap-24 max-w-7xl m-auto p-8'>
                         <div>
                             <h3 className="font-semibold text-2xl mb-8">Mantenimiento Preventivo</h3>
                             <p className="text-gray-700 text-lg">
@@ -47,7 +47,7 @@ export default function Home() {
                                 hay que gastar mucho más dinero y tiempo del que se invierte al hacer el mantenimiento preventivo del automóvil a tiempo.
                             </p>
                         </div>
-                        <Image className="rounded-lg shadow-lg" src={picture1} width={350} alt='' />
+                        <Image className="rounded-lg shadow-lg xl:w-[350px]" src={picture1} width={350} alt='' />
                     </div>
                 </section>
                 <section className="py-8 shadow-md rounded-md">

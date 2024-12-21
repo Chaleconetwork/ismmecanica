@@ -55,7 +55,7 @@ const Calendar: React.FC = () => {
 
     const renderHours = () => {
         // Generar el rango de horas de 9:00 AM a 10:00 PM
-        const hours = Array.from({ length: 14 }, (_, i) => {
+        const hours = Array.from({ length: 11 }, (_, i) => {
             const hour = 9 + i; // Comienza desde las 9:00 y termina a las 22:00
             const period = hour >= 12 ? 'PM' : 'AM'; // Determinar si es AM o PM
             const displayHour = hour > 12 ? hour - 12 : hour; // Convertir a formato 12 horas
