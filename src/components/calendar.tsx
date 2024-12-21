@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 const Calendar: React.FC = () => {
     const today = new Date();
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+    const [selectedHour, setSelectedHour] = useState<string | null>(null);
     const [currentYear, setCurrentYear] = useState<number>(today.getFullYear());
     const [currentMonth, setCurrentMonth] = useState<number>(today.getMonth());
     const [previousMonths, setPreviousMonths] = useState<Record<number, number>>({});
@@ -71,26 +72,44 @@ const Calendar: React.FC = () => {
         setCurrentYear(selectedYear);
     };
 
+    const renderHours = () => {
+        // Generar el rango de horas de 9:00 AM a 10:00 PM
+        const hours = Array.from({ length: 14 }, (_, i) => {
+            const hour = 9 + i; // Comienza desde las 9:00 y termina a las 22:00
+            const period = hour >= 12 ? 'PM' : 'AM'; // Determinar si es AM o PM
+            const displayHour = hour > 12 ? hour - 12 : hour; // Convertir a formato 12 horas
+            return `${displayHour}:00 ${period}`;
+        });
+    
+        return (
+            <div className="grid grid-cols-4 gap-4 mt-4">
+                {hours.map((hour) => (
+                    <div
+                        key={hour}
+                        onClick={() => setSelectedHour(hour)}
+                        className={`p-2 border rounded text-center cursor-pointer ${
+                            selectedHour === hour ? 'bg-blue-500 text-white' : 'bg-gray-100 hover:bg-blue-100'
+                        }`}
+                    >
+                        {hour}
+                    </div>
+                ))}
+            </div>
+        );
+    };
+    
+
     return (
         <div className="p-4 border rounded shadow-md">
-            <h2 className="text-2xl font-bold mb-4">Reservas</h2>
-
-            <div className="mb-4">
-                <span className="font-medium">Hora actual en Chile: </span>
-                <span>{chileTime}</span>
-            </div>
-
             <div className="flex justify-end gap-4 items-center mb-4">
                 <div className='border rounded px-2 py-1'>
-                    {/* <label className="mr-2">Mes:</label> */}
                     <select
                         value={currentMonth}
                         onChange={handleMonthChange}
                         className='outline-none'
                     >
                         {Array.from({ length: 12 }, (_, i) => (
-                            <option key={i} value={i} className=''
-                            >
+                            <option key={i} value={i}>
                                 {new Date(0, i).toLocaleString('es-ES', { month: 'long' })}
                             </option>
                         ))}
@@ -98,7 +117,6 @@ const Calendar: React.FC = () => {
                 </div>
 
                 <div className="px-2 py-1 border rounded">
-                    {/* <label className="mr-2">Año:</label> */}
                     <select
                         value={currentYear}
                         onChange={handleYearChange}
@@ -122,7 +140,6 @@ const Calendar: React.FC = () => {
                     </div>
                 ))}
 
-                {/* Celdas vacías para alinear los días */}
                 {Array.from({ length: firstDayOfMonth(currentMonth, currentYear) }).map((_, i) => (
                     <div key={`empty-${i}`} />
                 ))}
@@ -137,7 +154,7 @@ const Calendar: React.FC = () => {
                             onClick={() =>
                                 !past && !sunday && setSelectedDate(new Date(currentYear, currentMonth, day))
                             }
-                            className={`p-4 border rounded text-center cursor-pointer ${sunday
+                            className={`p-3 border rounded text-center ${sunday
                                 ? 'bg-red-400 text-white cursor-not-allowed'
                                 : past
                                     ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
@@ -145,7 +162,7 @@ const Calendar: React.FC = () => {
                                         selectedDate?.getMonth() === currentMonth &&
                                         selectedDate?.getFullYear() === currentYear
                                         ? 'bg-blue-500 text-white'
-                                        : 'bg-gray-100 hover:bg-blue-100'
+                                        : 'bg-gray-100 hover:bg-blue-100 cursor-pointer'
                                 }`}
                         >
                             {day}
@@ -155,11 +172,19 @@ const Calendar: React.FC = () => {
             </div>
 
             {selectedDate && (
-                <p className="mt-4">Fecha seleccionada: {selectedDate.toLocaleDateString()}</p>
+                <div className="mt-4">
+                    <p>Fecha seleccionada: {selectedDate.toLocaleDateString()}</p>
+                    {renderHours()}
+                </div>
             )}
 
             <div className='flex justify-end'>
-                <button className='bg-yellow-500 px-8 py-2 rounded-md font-semibold mt-10 hover:bg-yellow-400 shadow-md'>Continuar</button>
+                <button
+                    className='bg-yellow-400 px-8 py-2 rounded-md font-semibold mt-4 hover:bg-yellow-300 shadow-md'
+                    disabled={!selectedDate || !selectedHour}
+                >
+                    Continuar
+                </button>
             </div>
         </div>
     );
