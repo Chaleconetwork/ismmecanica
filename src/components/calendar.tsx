@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const Calendar: React.FC = () => {
     const today = new Date();
@@ -7,25 +7,6 @@ const Calendar: React.FC = () => {
     const [currentYear, setCurrentYear] = useState<number>(today.getFullYear());
     const [currentMonth, setCurrentMonth] = useState<number>(today.getMonth());
     const [previousMonths, setPreviousMonths] = useState<Record<number, number>>({});
-    const [chileTime, setChileTime] = useState<string>('');
-
-    // Función para obtener la hora en Chile (UTC-3)
-    const getChileTime = () => {
-        const options: Intl.DateTimeFormatOptions = {
-            timeZone: 'America/Santiago',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: false,
-        };
-        const chileDate = new Date().toLocaleString('es-CL', options);
-        setChileTime(chileDate);
-    };
-
-    useEffect(() => {
-        const interval = setInterval(getChileTime, 1000);
-        return () => clearInterval(interval);
-    }, []);
 
     const daysInMonth = (month: number, year: number) => new Date(year, month + 1, 0).getDate();
 

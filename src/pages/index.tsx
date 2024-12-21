@@ -1,13 +1,12 @@
-import Link from 'next/link';
-import picture1 from '../../public/main.jpg'
-import picture2 from '../../public/picture2.jpg'
-import mantenimiento from '../../public/mantenimiento.jpg'
-import frenos from '../../public/frenos.jpg'
-import suspension from '../../public/suspension.png'
 import trendelantero from '../../public/trendelantero.png'
+import mantenimiento from '../../public/mantenimiento.jpg'
+import suspension from '../../public/suspension.png'
+import frenos from '../../public/frenos.jpg'
+import picture1 from '../../public/main.jpg'
+import Link from 'next/link';
 
-import Image from "next/image";
 import { Card } from '@/components/card';
+import Image from "next/image";
 
 export default function Home() {
     return (
